@@ -41,6 +41,7 @@ public class Post {
     private LocalDateTime updated;
 
     public Post(Post post) {
+        this.id = post.getId();
         this.account = post.getAccount();
         this.content = post.getContent();
         this.filepath = post.getFilepath();
