@@ -1,15 +1,16 @@
 package kr.hs.dgsw.web01blog.Service;
 
 import kr.hs.dgsw.web01blog.Domain.User;
+import kr.hs.dgsw.web01blog.Protocol.ResponseFormat;
 
 import java.util.List;
 
 public interface UserService {
-    User AddUser(User user);
+    ResponseFormat AddUser(User user);
 
-    List<User> ListUser();
+    ResponseFormat ListUser();
 
-    User UpdateUser(String account, User user);
+    ResponseFormat UpdateUser(String account, User user);
 
-    boolean DeleteUser(String account);
+    ResponseFormat DeleteUser(String account);
 }

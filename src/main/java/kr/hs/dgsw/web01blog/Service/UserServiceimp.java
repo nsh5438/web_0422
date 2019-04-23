@@ -1,6 +1,8 @@
 package kr.hs.dgsw.web01blog.Service;
 
 import kr.hs.dgsw.web01blog.Domain.User;
+import kr.hs.dgsw.web01blog.Protocol.ResponseFormat;
+import kr.hs.dgsw.web01blog.Protocol.ResponseType;
 import kr.hs.dgsw.web01blog.Repository.UserRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,20 +17,21 @@ public class UserServiceimp implements UserService {
     private UserRep userRep;
 
     @Override
-    public User AddUser(User user) {
+    public ResponseFormat AddUser(User user) {
         Optional<User> found = this.userRep.findByAccount(user.getAccount());
         if (found.isPresent()) return null;
-        return this.userRep.save(user);
+        this.userRep.save(user);
+        return new ResponseFormat(ResponseType.USER_ADD, user, user.getAccount());
     }
 
     @Override
-    public List<User> ListUser() {
-        return this.userRep.findAll();
+    public ResponseFormat ListUser() {
+        return new ResponseFormat(ResponseType.USER_GET,this.userRep.findAll());
     }
 
     @Override
-    public User UpdateUser(String account, User user) {
-        return this.userRep.findByAccount(account)
+    public ResponseFormat UpdateUser(String account, User user) {
+        User updateuser = this.userRep.findByAccount(account)
                 .map(found -> {
                     found.setName(Optional.ofNullable(user.getName()).orElse(found.getName()));
                     found.setPassword(Optional.ofNullable(user.getPassword()).orElse(found.getPassword()));
@@ -37,16 +40,17 @@ public class UserServiceimp implements UserService {
                     return this.userRep.save(found);
                 })
                 .orElse(null);
+        return new ResponseFormat(ResponseType.USER_UPDATE,updateuser,account);
     }
 
     @Override
-    public boolean DeleteUser(String account) {
+    public ResponseFormat DeleteUser(String account) {
         Optional<User> found = this.userRep.findByAccount(account);
         if (found.isPresent()) {
             this.userRep.delete(found.get());
-            return true;
+            return new ResponseFormat(ResponseType.USER_DELETE,found,account);
         } else
-            return false;
+            return new ResponseFormat(ResponseType.FAIL,found);
     }
 
 }

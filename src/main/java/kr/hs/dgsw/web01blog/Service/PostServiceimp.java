@@ -1,10 +1,15 @@
 package kr.hs.dgsw.web01blog.Service;
 
+import javafx.geometry.Pos;
 import kr.hs.dgsw.web01blog.Domain.Post;
 import kr.hs.dgsw.web01blog.Domain.User;
 import kr.hs.dgsw.web01blog.Protocol.PostUserPro;
+import kr.hs.dgsw.web01blog.Protocol.ResponseFormat;
+import kr.hs.dgsw.web01blog.Protocol.ResponseType;
+import kr.hs.dgsw.web01blog.Repository.AttachmentRep;
 import kr.hs.dgsw.web01blog.Repository.PostRep;
 import kr.hs.dgsw.web01blog.Repository.UserRep;
+import org.omg.PortableServer.POA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +25,24 @@ public class PostServiceimp implements PostService {
 
     @Autowired
     private UserRep userRep;
+    @Autowired
+    private AttachmentRep attachmentRep;
 
     @Override
-    public PostUserPro AddPost(Post post) {
-        Post addpost = this.postRep.save(post);
-        String username = this.userRep.findByAccount(post.getAccount()).map(user -> user.getName()).orElse(null);
-        return new PostUserPro(addpost,username);
+    public ResponseFormat get(String acccount) {
+        Post post = this.postRep.findTopByAccountOrderByAccountDesc(acccount).orElse(null);
+        return new ResponseFormat(ResponseType.POST_GET, post);
     }
 
     @Override
-    public List<PostUserPro> ListPost() {
+    public ResponseFormat AddPost(Post post) {
+        Post addpost = this.postRep.save(post);
+        String username = this.userRep.findByAccount(post.getAccount()).map(user -> user.getName()).orElse(null);
+        return new ResponseFormat(ResponseType.POST_ADD,new PostUserPro(addpost,username), post.getId());
+    }
+
+    @Override
+    public ResponseFormat ListPost() {
         List<Post> postList = this.postRep.findAll();
         List<PostUserPro> postUserProList = new ArrayList<>();
         postList.forEach(post -> {
@@ -38,27 +51,29 @@ public class PostServiceimp implements PostService {
             if (found.isPresent()) username =found.get().getName();
             postUserProList.add(new PostUserPro(post, username));
         });
-        return postUserProList;
+        return new ResponseFormat(ResponseType.POST_GET, postUserProList);
     }
 
     @Override
-    public Post UpdatePost(Long id, Post post) {
-        return this.postRep.findById(id)
+    public ResponseFormat UpdatePost(Long id, Post post) {
+        Post updaatepost = this.postRep.findById(id)
                 .map(found -> {
+                    found.setTitle(Optional.ofNullable(post.getTitle()).orElse(found.getTitle()));
                     found.setContent(Optional.ofNullable(post.getContent()).orElse(found.getContent()));
                     return this.postRep.save(found);
                 })
                 .orElse(null);
+        return new ResponseFormat(ResponseType.POST_UPDATE, updaatepost, id);
     }
 
     @Override
-    public boolean DeletePost(Long id) {
+    public ResponseFormat DeletePost(Long id) {
         Optional<Post> found = this.postRep.findById(id);
         if (found.isPresent()) {
             this.postRep.delete(found.get());
-            return true;
+            return new ResponseFormat(ResponseType.POST_DELETE, found, id);
         } else
-            return false;
+            return new ResponseFormat(ResponseType.FAIL, found);
     }
 
 

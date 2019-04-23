@@ -41,7 +41,8 @@ Content-Type: application/json
 
 {
   "account" : "abcd",
-  "content" : "content2"
+  "title": "1234",
+  "content" : "content222"
 }
 
 ###
@@ -51,7 +52,7 @@ Accept: application/json
 
 ###
 
-PUT http://localhost:8080/updatepost/2
+PUT http://localhost:8080/updatepost/1
 Content-Type: application/json
 
 {
@@ -60,7 +61,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8080/deletepost/2
+DELETE http://localhost:8080/deletepost/1
 Accept: application/json
 
 ###

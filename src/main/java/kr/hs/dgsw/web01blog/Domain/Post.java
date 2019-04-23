@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,13 +23,13 @@ public class Post {
     @Column(nullable = false, length = 20)
     private String account;
 
-    @Column(nullable = false)
+    private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String filepath;
-
-    private String filename;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Attachment> pictures;
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
@@ -43,9 +44,8 @@ public class Post {
     public Post(Post post) {
         this.id = post.getId();
         this.account = post.getAccount();
+        this.title = post.getTitle();
         this.content = post.getContent();
-        this.filepath = post.getFilepath();
-        this.filename = post.getFilename();
         this.created = post.getCreated();
         this.updated = post.getUpdated();
     }
