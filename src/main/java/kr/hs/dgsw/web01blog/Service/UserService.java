@@ -13,4 +13,6 @@ public interface UserService {
     ResponseFormat UpdateUser(String account, User user);
 
     ResponseFormat DeleteUser(String account);
+
+    ResponseFormat findUser(String account);
 }

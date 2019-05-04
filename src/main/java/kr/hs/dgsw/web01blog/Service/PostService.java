@@ -17,4 +17,8 @@ public interface PostService {
     ResponseFormat UpdatePost(Long id, Post post);
 
     ResponseFormat DeletePost(Long id);
+
+    ResponseFormat getCount(String account);
+
+    ResponseFormat View(Long id);
 }

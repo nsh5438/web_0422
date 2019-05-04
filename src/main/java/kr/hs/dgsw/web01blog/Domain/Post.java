@@ -46,7 +46,11 @@ public class Post {
         this.account = post.getAccount();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.created = post.getCreated();
         this.updated = post.getUpdated();
+    }
+    public Post(String account, String title, String content) {
+        this.account = account;
+        this.title = title;
+        this.content = content;
     }
 }

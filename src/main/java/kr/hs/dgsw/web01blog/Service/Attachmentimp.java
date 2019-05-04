@@ -80,9 +80,9 @@ public class Attachmentimp implements AttachmentService {
     }
 
     @Override
-    public ResponseFormat AddAttachment(Attachment attachment) {
-        Attachment addattach = this.attachmentRep.save(attachment);
-        this.postRep.findById(addattach.getId()).get().getPictures().add(addattach);
-        return new ResponseFormat(ResponseType.ATTACHMENT_STORED, addattach);
+    public ResponseFormat AddAttachment(Long id, Attachment attachment) {
+        Attachment attach = this.attachmentRep.save(attachment);
+        this.postRep.findById(id).get().getPictures().add(attach);
+        return new ResponseFormat(ResponseType.ATTACHMENT_ADD, attach);
     }
 }

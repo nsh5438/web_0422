@@ -20,6 +20,9 @@ public class UserController {
     @GetMapping("/listuser")
     public ResponseFormat ListUser() { return this.userService.ListUser(); }
 
+    @GetMapping("/finduser/{account}")
+    public ResponseFormat findUser(@PathVariable String account) { return this.userService.findUser(account);}
+
     @PutMapping("/updateuser/{account}")
     public ResponseFormat UpdateUser(@PathVariable String account, @RequestBody User user){ return this.userService.UpdateUser(account,user); }
 

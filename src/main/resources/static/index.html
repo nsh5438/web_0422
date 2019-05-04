@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <script
+            src="http://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="container" style="">
+        <div style="font-size: 17pt;" class="title_center">
+            <b>DGSW 블로그</b>
+        </div>
+    </header>
+
+    <aside class="container left-container">
+        <div class="add">
+            <button class="looklikelink" onclick="AddContent()">새글쓰기</button>
+        </div>
+        <div class="link">
+            <ul id="cotentlist"></ul>
+        </div>
+    </aside>
+
+    <section class="container" >
+        <div class="content" id="main-container">
+            <div id="mainpost_title" style="font-size: 20pt; margin: 20pt;">타이틀</div>
+            <hr>
+            <div id="mainpost_author" style="font-size: 12pt; margin-left: 20pt; position: absolute;">작성자</div>
+            <div id="mainpost_date" style="font-size: 12pt; margin-right:20pt;position: absolute;right: 0;">날짜</div>
+            <div id="mainpost_content" style="font-size: 15pt; margin: 30pt;height: 450px;">내용</div>
+        </div>
+        <div class="btn" style="text-align: center">
+            <div>
+                <button onclick="PageUpDown(this)">이전</button>
+                <button onclick="Update()">수정</button>
+                <button onclick="Delete()">삭제</button>
+                <button onclick="PageUpDown(this)">다음</button>
+            </div>
+        </div>
+    </section>
+
+    <aside class="container right-container">
+        <img id="image_user" src="user-profile.jpg" width="100px" height="100px" alt="" style="margin-top: 50px">
+        <p id="userid">아이디</p>
+        <p id="username">이름</p>
+
+        <p id="registerdate">가입일자</p>
+        <p id="countpost">게시물수</p>
+    </aside>
+
+    <footer class="container">
+        <div style="font-size: 13pt;" class="title_center">
+            Powered by DGSW
+        </div>
+    </footer>
+
+    <div id="container">
+        <div id="write-content">
+            <div id="write-display">
+                <div style="margin: 30px 0">새글 쓰기</div>
+                <div ><input id="title" placeholder="제목"></div>
+                <div><textarea id="contents" rows="10" placeholder="내용" style="margin-top: 20px"></textarea></div>
+                <div style="margin: 30px 0">
+                    <button onclick="Add()" id="addbtn">추가</button>
+                    <button onclick="Close()">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <link href="style.css" rel="stylesheet"/>
+</body>
+<script src="index.js"></script>
+</html>

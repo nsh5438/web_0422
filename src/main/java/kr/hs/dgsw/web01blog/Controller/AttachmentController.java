@@ -26,6 +26,6 @@ public class AttachmentController {
         this.attachmentService.Download(type,id,request,response);
     }
 
-    @PostMapping("/addattachment")
-    public ResponseFormat AddAttachment(Attachment attachment) {return this.attachmentService.AddAttachment(attachment);}
+    @PostMapping("/addattachment/{id}")
+    public ResponseFormat AddAttachment(@PathVariable Long id, @RequestBody Attachment attachment) {return this.attachmentService.AddAttachment(id,attachment);}
 }

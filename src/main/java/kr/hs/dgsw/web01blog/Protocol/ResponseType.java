@@ -13,7 +13,8 @@ public enum ResponseType {
     POST_ADD                (203,"Post postID[%d] add"),
     POST_UPDATE             (204,"Post postID[%d] update"),
 
-    ATTACHMENT_STORED       (301,"Attachment sucess");
+    ATTACHMENT_STORED       (301,"Attachment stored"),
+    ATTACHMENT_ADD          (302,"Attachment add");
 
     final private int code;
     final private String desc;

@@ -30,8 +30,28 @@ public class PostServiceimp implements PostService {
 
     @Override
     public ResponseFormat get(String acccount) {
-        Post post = this.postRep.findTopByAccountOrderByAccountDesc(acccount).orElse(null);
+        Post post = this.postRep.findTopByAccountOrderByCreatedDesc(acccount).orElse(null);
         return new ResponseFormat(ResponseType.POST_GET, post);
+    }
+
+
+    @Override
+    public ResponseFormat getCount(String account) {
+        List<Post> postList = this.postRep.findAll();
+        List<Post> postUserProList = new ArrayList<>();
+        postList.forEach(post -> {
+            Optional<User> found = this.userRep.findByAccount(account);
+            if (found.isPresent()){
+                postUserProList.add(post);
+            }
+        });
+        return new ResponseFormat(ResponseType.POST_GET, postUserProList.size());
+    }
+
+    @Override
+    public ResponseFormat View(Long id) {
+        Optional<Post> post = this.postRep.findById(id);
+        return new ResponseFormat(ResponseType.POST_GET, post.get());
     }
 
     @Override
@@ -75,6 +95,7 @@ public class PostServiceimp implements PostService {
         } else
             return new ResponseFormat(ResponseType.FAIL, found);
     }
+
 
 
 }

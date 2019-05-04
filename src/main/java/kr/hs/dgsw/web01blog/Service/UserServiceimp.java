@@ -1,12 +1,15 @@
 package kr.hs.dgsw.web01blog.Service;
 
+import kr.hs.dgsw.web01blog.Domain.Post;
 import kr.hs.dgsw.web01blog.Domain.User;
 import kr.hs.dgsw.web01blog.Protocol.ResponseFormat;
 import kr.hs.dgsw.web01blog.Protocol.ResponseType;
+import kr.hs.dgsw.web01blog.Repository.PostRep;
 import kr.hs.dgsw.web01blog.Repository.UserRep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +18,23 @@ public class UserServiceimp implements UserService {
 
     @Autowired
     private UserRep userRep;
+
+    @Autowired
+    private PostRep postRep;
+
+    @PostConstruct
+    private void init() {
+
+        if (this.userRep.count() > 0) return;
+        User user = this.userRep.save(new User("abc","1234","abc",
+                "abc@dgsw.hs.kr","010-1111-1111",
+                "D:/3102_남가영/IdeaProjects/dgsw_sns/upload/f166a6f5-5a96-47c7-b696-4d83f2302e88 flower.jpg"
+                ));
+
+        this.postRep.save(new Post(user.getAccount(), "title1","abc1111"));
+        this.postRep.save(new Post(user.getAccount(),"title2","abc2222"));
+        this.postRep.save(new Post(user.getAccount(),"title3","abc3333"));
+    }
 
     @Override
     public ResponseFormat AddUser(User user) {
@@ -51,6 +71,12 @@ public class UserServiceimp implements UserService {
             return new ResponseFormat(ResponseType.USER_DELETE,found,account);
         } else
             return new ResponseFormat(ResponseType.FAIL,found);
+    }
+
+    @Override
+    public ResponseFormat findUser(String account) {
+        Optional<User> user = this.userRep.findByAccount(account);
+        return new ResponseFormat(ResponseType.USER_GET, user);
     }
 
 }

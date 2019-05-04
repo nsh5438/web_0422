@@ -9,5 +9,7 @@ public interface PostRep extends JpaRepository<Post, Long> {
 
     Optional<Post> findTopByAccountOrderByAccountDesc(String account);
 
+    Optional<Post> findTopByAccountOrderByCreatedDesc(String account);
+
     public Optional<Post> findByAccount(String account);
 }

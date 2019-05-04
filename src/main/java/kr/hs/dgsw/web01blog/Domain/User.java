@@ -64,4 +64,13 @@ public class User {
     @Column(nullable = false)
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime updated;
+
+    public User(String account, String password, String name, String email, String phone, String profilepath) {
+        this.account = account;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.profilepath = profilepath;
+    }
 }

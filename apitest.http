@@ -19,7 +19,13 @@ Content-Type: application/json
 GET http://localhost:8080/listuser
 Accept: application/json
 
-###,
+###
+
+GET http://localhost:8080/finduser/abc
+Accept: application/json
+
+###
+
 
 PUT http://localhost:8080/updateuser/abcd
 Content-Type: application/json
@@ -62,6 +68,11 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:8080/deletepost/1
+Accept: application/json
+
+###
+
+GET http://localhost:8080/view/2
 Accept: application/json
 
 ###

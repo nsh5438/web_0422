@@ -14,5 +14,5 @@ public interface AttachmentService {
 
     void Download(String type, Long id, HttpServletRequest request, HttpServletResponse response);
 
-    ResponseFormat AddAttachment(Attachment attachment);
+    ResponseFormat AddAttachment(Long id, Attachment attachment);
 }
